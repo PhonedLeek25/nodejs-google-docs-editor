@@ -97,12 +97,12 @@ async function authorize() {
 }
 
 //MAIN:
-let DOCUMENT_ID = "";
 async function main() {
+    let DOCUMENT_ID = "";
+    //Fetch URL 
     try {
         rl.question("Please input the URL of the document you would like to scan: ", input => {
             rl.close();
-            //SAMPLE INPUT: //https://docs.google.com/document/d/DOC_ID_HERE/edit#heading=h.8ba3a4hwu1dp
             const searchTerm1 = 'document/d/';
             const index1 = input.indexOf(searchTerm1);
             const searchTerm2 = '/edit';
@@ -111,18 +111,14 @@ async function main() {
             console.log("Your document ID is ", DOCUMENT_ID);
         });
     }
-    catch (err) {
-        console.log("ERROR: ", err);
-    }
-    while (DOCUMENT_ID === "") {
-        await wait(1_000);
-    }
+    catch (err) { console.log("ERROR: ", err); }
+    //Wait for URL
+    while (DOCUMENT_ID === "") { await wait(1_000); }
+    //Authorize & Access
     console.log("working...");
     const auth = await authorize();
-    const docs = google.docs({
-        version: "v1",
-        auth
-    });
+    const docs = google.docs({ version: "v1", auth });
+    //Update Document
     await docs.documents.batchUpdate({
         auth,
         documentId: DOCUMENT_ID,
@@ -139,6 +135,8 @@ async function main() {
             ]
         }
     });
+
+    //done!
     console.log("done!");
 }
 
