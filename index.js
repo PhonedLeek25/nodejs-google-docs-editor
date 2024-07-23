@@ -99,9 +99,7 @@ async function scanDoc() {
 
 }
 
-async function writeHTML() {
-
-}
+const { writehtml } = require('./writehtml.js');
 
 //MAIN:
 async function main() {
