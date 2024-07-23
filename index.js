@@ -79,12 +79,11 @@ fs.readFile("credentials.json", (err, content) => {
 });
 
 
-//const { google } = require("googleapis");
 const token = require("./token.json");
 const credentials = require("./credentials.json");
 const { exit } = require("process");
 
-//Helper authorization every time we do an edit.
+//HELPER FUNCTIONS
 async function authorize() {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(
@@ -94,6 +93,14 @@ async function authorize() {
     );
     oAuth2Client.setCredentials(token);
     return oAuth2Client;
+}
+
+async function scanDoc() {
+
+}
+
+async function writeHTML() {
+
 }
 
 //MAIN:
@@ -118,6 +125,12 @@ async function main() {
     console.log("working...");
     const auth = await authorize();
     const docs = google.docs({ version: "v1", auth });
+
+    //Obtain Data
+    //await docs.documents.get(DOCUMENT_ID);
+
+
+
     //Update Document
     await docs.documents.batchUpdate({
         auth,
